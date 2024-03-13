@@ -9,7 +9,7 @@ import productRouter from './src/modules/product/product.router.js'
 import CartRouter from './src/modules/cart/cart.router.js'
 import CouponRouter from './src/modules/coupon/coupon.router.js'
 import OrderRouter from './src/modules/order/order.router.js'
-import bestsellerRouter from "./src/modules/BestSeller/BestSeller.router.js"
+import bestsellerRouter from "./src/modules/bestseller/bestseller.router.js"
 dotenv.config()
 
 export const appRouter=(app,express)=>{
