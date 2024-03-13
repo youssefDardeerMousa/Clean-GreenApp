@@ -23,7 +23,7 @@ const activationCode= Crypto.randomBytes(64).toString('hex')
 //create user
 const user=await User.create({Name,Email,Password:hashPassword,RePassword:hashPassword,activationCode})
 //create confirmationLink
-const link=`http://localhost:3000/auth/confirmEmail/${activationCode}`;
+const link=`https://clean-green-app.vercel.app/auth/confirmEmail/${activationCode}`;
 
 // send email
 const IsSent = await sendEmail({ to: Email, subject: "Activate Account", html: SignUpTemp(link) });
