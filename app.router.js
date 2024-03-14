@@ -35,7 +35,79 @@ app.use("/coupon",CouponRouter)
 app.use("/order",OrderRouter)
 // best seller
 app.use("/bestseller",bestsellerRouter)
+// Base Url
+app.get("/",(req,res,next)=>{
+    const temp = `
+    <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clean and Green Agriculture</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<style>
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #eaf4f4;
+    text-align: center;
+}
 
+.welcome-message {
+    margin-top: 100px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-size: 48px;
+    color: #2c5234;
+}
+
+p {
+    color: #336e47;
+    font-size: 24px;
+    margin: 20px 0;
+}
+
+.plant-icons {
+    margin-top: 40px;
+}
+
+.plant-icons i {
+    font-size: 64px;
+    margin: 0 20px;
+    color: #3d9970;
+    border-radius: 50%;
+    padding: 20px;
+    background-color: #d2f1de;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.plant-icons i:hover {
+    transform: scale(1.1);
+}
+
+</style>
+    </head>
+<body>
+    <div class="welcome-message">
+        <h1>Welcome to Clean and Green Agriculture!</h1>
+        <p>Discover a world of beautiful plants, trees, and seeds for your sustainable garden.</p>
+        <div class="plant-icons">
+            <i class="fas fa-tree"></i>
+            <i class="fas fa-seedling"></i>
+            <i class="fas fa-leaf"></i>
+        </div>
+    </div>
+</body>
+</html>
+`
+    res.status(200).header('Content-Type', 'text/html').send(temp);
+})
 
 const Port=process.env.port
 app.listen(Port,()=>{

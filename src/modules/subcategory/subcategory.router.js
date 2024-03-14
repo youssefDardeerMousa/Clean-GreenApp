@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { fileUpload, filterObject } from "../../../utils/multer.js";
-import { SearchSubcategory, allSubCategories, createSubCategory, deleteSubCategory, updateSubCategory } from "./subcategory.controller.js";
-import { createSubCategorySchema, deleteSubCategorySchema, updateSubCategorySchema } from "./subcategory.validation.js";
+import { SearchSubcategory, allSubCategories, createSubCategory, deleteSubCategory, singlesubcategory, updateSubCategory } from "./subcategory.controller.js";
+import { SubCategorySchema, createSubCategorySchema, deleteSubCategorySchema, updateSubCategorySchema } from "./subcategory.validation.js";
 import { isAuthenticated } from "../../middleware/authentication.middleware.js";
 import { isAuthorized } from "../../middleware/authorization.middleware.js";
 import { isValid } from "../../middleware/validation.middleware.js";
@@ -42,9 +42,11 @@ router.delete(
   isValid(deleteSubCategorySchema),
   deleteSubCategory
 );
-
+//all subcategories from categories
+router.get("/", allSubCategories)
 // read SearchSubcategory
-router.get("/:categoryId", allSubCategories)
-router.get("/:categoryId/search", SearchSubcategory)
+
+router.get("/search", SearchSubcategory)
+router.get("/singlesubcategory", singlesubcategory);
 
 export default router;

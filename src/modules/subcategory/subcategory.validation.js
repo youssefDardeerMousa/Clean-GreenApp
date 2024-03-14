@@ -28,3 +28,10 @@ export const deleteSubCategorySchema = joi
     subcategoryId: joi.string().custom(IsValidObjectId).required(),
   })
   .required();
+
+  export const SubCategorySchema = joi
+  .object({
+    subcategoryId: joi.string().custom(IsValidObjectId).required(),
+  })
+  .required();
+

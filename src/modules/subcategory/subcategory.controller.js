@@ -173,6 +173,7 @@ export const allSubCategories = CatchError(async (req, res, next) => {
 
   return res.json({ success: true, results: subcategories });
 });
+//search
 export const SearchSubcategory = CatchError(async (req, res, next) => {
   const { name } = req.query;
   
@@ -181,3 +182,16 @@ export const SearchSubcategory = CatchError(async (req, res, next) => {
   
   return res.json({ status: 200, success: true, subcategories });
 });
+// singlesubcategory
+
+export const singlesubcategory = CatchError(async (req, res, next) => {
+  const {subcategoryId}=req.query
+  // check product existence
+  const subcategory = await subCategoryModel.findById({_id:subcategoryId});
+  if (!subcategory) return next(new Error("Product not found!", { cause: 404 }));
+console.log(subcategory);
+  // response
+  return res.json({ success: true, results: subcategory });
+});
+
+

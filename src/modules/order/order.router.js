@@ -3,7 +3,7 @@ import { Router } from "express";
 import express from "express";
 import { isAuthenticated } from "../../middleware/authentication.middleware.js";
 import { isValid } from "../../middleware/validation.middleware.js";
-import { cancelOrder, createOrder, orderWebhook } from "./order.controller.js";
+import { cancelOrder,AllOrder, createOrder, orderWebhook } from "./order.controller.js";
 import { cancelOrderSchema, createOrderSchema } from "./order.validation.js";
 const router = Router();
 
@@ -18,6 +18,8 @@ router.patch(
   cancelOrder
 );
 
+// all orders
+router.get("/",AllOrder)
 // Webhook
 // stripe will call this endpoint after the money is taken
 

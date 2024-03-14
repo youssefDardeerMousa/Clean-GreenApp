@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { activateSchema, forgetCodeSchema, loginSchema, registerSchema, resetPasswordSchema,roleSchema } from "./user.validation.js";
-import { activationAccount, login, register, resetPassword, sendForgetCode,RoleUser,allusers,logout } from "./user.controller.js";
+import { activationAccount, login,deleteaccount, register, resetPassword, sendForgetCode,RoleUser,allusers,logout } from "./user.controller.js";
 import { isAuthenticated } from "../../middleware/authentication.middleware.js";
 import { CatchError } from "../../../utils/catch_error.js";
 import { isValid } from "../../middleware/validation.middleware.js";
@@ -22,5 +22,6 @@ router.patch("/role",isValid(roleSchema),CatchError(RoleUser))
 router.get("/users",CatchError(allusers))
 // Log Out
 router.delete("/logout",isAuthenticated,CatchError(logout))
+router.delete("/:id",isAuthenticated,deleteaccount)
 
 export default router

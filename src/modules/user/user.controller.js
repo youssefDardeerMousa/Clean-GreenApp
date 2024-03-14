@@ -7,6 +7,7 @@ import jwt from 'jsonwebtoken'
 import { Token } from "../../../DB/models/token.model.js"
 import randomString from 'randomstring'
 import CartModel from "../../../DB/models/cart.model.js"
+import { CatchError } from "../../../utils/catch_error.js"
 export const register=async(req, res, next) =>{
     //data from request
 const {Name,Email,Password,RePassword}= req.body
@@ -218,3 +219,12 @@ export const logout=async (req,res,next)=>{
   await user.save()
   return res.status(200).json({result:true,status:200,message:"deleted token successfully and user Bacame Offline"})
 }
+
+export const deleteaccount =CatchError(async(req,res,next)=>{
+  const {id}=req.params
+  const user= await User.findByIdAndDelete(id);
+  if(!user){
+    return next(new Error("User Not Found",{cause:404}))
+  }
+  return res.json({result:true,status:200,message:"deleted Account Successfully"})
+})

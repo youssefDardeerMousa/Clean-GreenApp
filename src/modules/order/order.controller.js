@@ -285,3 +285,8 @@ export const orderWebhook = CatchError(async (request, response) => {
   );
   return response.send();
 });
+
+export const AllOrder=CatchError(async(req,res,next)=>{
+  const order= await orderModel.find();
+  res.status(200).json({success:true,status:200,order})
+})
