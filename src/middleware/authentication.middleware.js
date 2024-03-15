@@ -22,7 +22,7 @@ export const isAuthenticated =CatchError(async(req,res,next)=>{
          return next(new Error('Token expired or Error Token !',{cause:400})) 
      }
 
-    const decoded=jwt.verify(token,process.env.TOKEN_KEY)
+    const decoded=jwt.verify(token,process.env.tokenkey)
     if(!decoded){
         return next(new Error('InValid Token !',{cause:400}))
     }
