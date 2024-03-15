@@ -9,5 +9,5 @@ import { bestsellerschema } from "./bestseller.validation.js";
 const router = Router()
 
 router.post("/:id",isAuthenticated,isAuthorized("admin"),isValid(bestsellerschema),bestselleradd)
-router.get("/",AllBestSeller)
+router.get("/",isAuthenticated,AllBestSeller)
 export default router

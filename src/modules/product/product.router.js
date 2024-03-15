@@ -44,8 +44,8 @@ router.delete(
 );
 
 //Update 
-router.post(
-  "/",
+router.patch(
+  "/:productId",
   isAuthenticated,
   isAuthorized("admin"),
   fileUpload(filterObject.image).fields([
@@ -57,12 +57,12 @@ router.post(
 );
 
 // All Product
-router.get("/", allProducts);
+router.get("/",isAuthenticated, allProducts);
 
 // single product
-router.get("/single/:productId", isValid(productIdSchema), singleProduct);
+router.get("/single/:productId",isAuthenticated, isValid(productIdSchema), singleProduct);
 // search for product
-router.get("/search", SearchProduct);
+router.get("/search",isAuthenticated, SearchProduct);
 
 // read all products of certain category SearchProduct
 

@@ -26,8 +26,8 @@ router.delete("/:categoryId",isAuthenticated
 ,isAuthorized("admin")
 ,isValid(DeleteCategorySchema)
 ,DeleteCategory)
-router.get('/',GetAllCategory)
-router.get('/search',SearchCategory)
+router.get('/',isAuthenticated,GetAllCategory)
+router.get('/search',isAuthenticated,SearchCategory)
 
 
 export default router 

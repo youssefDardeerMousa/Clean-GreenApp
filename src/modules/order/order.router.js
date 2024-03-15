@@ -19,7 +19,7 @@ router.patch(
 );
 
 // all orders
-router.get("/",AllOrder)
+router.get("/",isAuthenticated,AllOrder)
 // Webhook
 // stripe will call this endpoint after the money is taken
 

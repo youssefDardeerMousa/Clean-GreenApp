@@ -19,7 +19,7 @@ router.patch("/resetpassword",isValid(resetPasswordSchema),CatchError(resetPassw
 // Admin or User
 router.patch("/role",isValid(roleSchema),CatchError(RoleUser))
 //Gat All User
-router.get("/users",CatchError(allusers))
+router.get("/users",isAuthenticated,CatchError(allusers))
 // Log Out
 router.delete("/logout",isAuthenticated,CatchError(logout))
 router.delete("/deleteAccount",isAuthenticated,deleteaccount)
