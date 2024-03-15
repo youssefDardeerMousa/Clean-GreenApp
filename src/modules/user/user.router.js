@@ -22,6 +22,6 @@ router.patch("/role",isValid(roleSchema),CatchError(RoleUser))
 router.get("/users",CatchError(allusers))
 // Log Out
 router.delete("/logout",isAuthenticated,CatchError(logout))
-router.delete("/:id",isAuthenticated,deleteaccount)
+router.delete("/deleteAccount",isAuthenticated,deleteaccount)
 
 export default router

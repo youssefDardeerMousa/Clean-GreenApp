@@ -221,7 +221,9 @@ export const logout=async (req,res,next)=>{
 }
 
 export const deleteaccount =CatchError(async(req,res,next)=>{
-  const {id}=req.params
+  const {id}=req.user
+  console.log(id);
+  await CartModel.findOneAndDelete({user:id})
   const user= await User.findByIdAndDelete(id);
   if(!user){
     return next(new Error("User Not Found",{cause:404}))
