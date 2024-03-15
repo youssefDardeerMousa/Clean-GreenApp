@@ -13,7 +13,7 @@ const router = Router({ mergeParams: true });
 
 // create
 router.post(
-  "/:categoryId",
+  "/",
   isAuthenticated,
   isAuthorized("admin"),
   fileUpload(filterObject.image).fields([
@@ -47,6 +47,5 @@ router.get("/", allSubCategories)
 // read SearchSubcategory
 
 router.get("/search", SearchSubcategory)
-router.get("/singlesubcategory", singlesubcategory);
-
+router.get("/:subcategoryId",isValid(SubCategorySchema), singlesubcategory);
 export default router;

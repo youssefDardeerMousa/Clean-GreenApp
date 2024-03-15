@@ -185,13 +185,11 @@ export const SearchSubcategory = CatchError(async (req, res, next) => {
 // singlesubcategory
 
 export const singlesubcategory = CatchError(async (req, res, next) => {
-  const {subcategoryId}=req.query
+  const {subcategoryId}=req.params;
   // check product existence
   const subcategory = await subCategoryModel.findById({_id:subcategoryId});
   if (!subcategory) return next(new Error("Product not found!", { cause: 404 }));
-console.log(subcategory);
   // response
   return res.json({ success: true, results: subcategory });
 });
-
 

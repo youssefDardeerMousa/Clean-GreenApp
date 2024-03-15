@@ -31,7 +31,7 @@ export const deleteSubCategorySchema = joi
 
   export const SubCategorySchema = joi
   .object({
-    subcategoryId: joi.string().custom(IsValidObjectId).required(),
+    subcategoryId: joi.string().required(),
+    categoryId:joi.string().required()
   })
   .required();
-
