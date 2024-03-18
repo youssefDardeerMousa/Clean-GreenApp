@@ -118,9 +118,21 @@ app.all("*",(req, res, next)=>{
     return next(new Error("Not Found Page ! ",{causs:404}))
 })
 // Global Error Handler
-app.use((error,req, res, next)=>{
-   const statuscode= error.cause || 500
-    return res.status(error.cause || 500).json({success:false,status:statuscode,message:error.message,stack:error.stack})
-})
+app.use((error, req, res, next) => {
+    const statusCode = error.cause || 500;
+    const errorResponse = {
+        success: false,
+        status: statusCode,
+        message: error.message
+    };
+
+    if (process.env.NODE_ENV == 'production') {
+        // Include the error stack trace only in non-production environments
+        errorResponse.stack = error.stack;
+    }
+
+    return res.status(statusCode).json(errorResponse);
+});
+
 
 }

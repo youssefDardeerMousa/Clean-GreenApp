@@ -18,6 +18,7 @@ const categorySchema=new Schema({
     CreatedBy:{type:Types.ObjectId,ref:'User'}
 },{timestamps:true,toJSON:{virtuals:true}});
 //Model
+// virtual when there is relation
 categorySchema.virtual('subcategory',{
     ref : "Subcategory",
     localField : '_id',
