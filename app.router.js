@@ -126,7 +126,7 @@ app.use((error, req, res, next) => {
         message: error.message
     };
 
-    if (process.env.NODE_ENV == 'production') {
+    if (process.env.NODE_ENV !== 'production') {
         // Include the error stack trace only in non-production environments
         errorResponse.stack = error.stack;
     }
