@@ -17,7 +17,7 @@ if(Isuser){
     return next(new Error("This Email Is Already Exist",{cause:409}))
 }
 //hash password SALT_ROUND
-const hashPassword=bcryptjs.hashSync(Password,Number(process.env.SALT_ROUND))
+const hashPassword=bcryptjs.hashSync(Password,Number(process.env.saltround))
 // generate activationCode // or generate Email from token
 const activationCode= Crypto.randomBytes(64).toString('hex')
 

@@ -12,7 +12,6 @@ export const sendEmail = async({to,subject,html, attachments})=>{
         }
     })
     // receiver
-
 const EmailInfo = await transporter.sendMail({
     from: `"Clean And Green" <${process.env.email}>`,
     to, 

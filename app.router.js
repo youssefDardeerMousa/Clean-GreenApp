@@ -10,6 +10,7 @@ import CartRouter from './src/modules/cart/cart.router.js'
 import CouponRouter from './src/modules/coupon/coupon.router.js'
 import OrderRouter from './src/modules/order/order.router.js'
 import bestsellerRouter from "./src/modules/bestseller/bestseller.router.js"
+import tokenRouter from "./src/modules/token/token.router.js"
 dotenv.config()
 
 export const appRouter=(app,express)=>{
@@ -35,6 +36,8 @@ app.use("/coupon",CouponRouter)
 app.use("/order",OrderRouter)
 // best seller
 app.use("/bestseller",bestsellerRouter)
+//Token
+app.use("/token",tokenRouter)
 // Base Url
 app.get("/",(req,res,next)=>{
     const temp = `
