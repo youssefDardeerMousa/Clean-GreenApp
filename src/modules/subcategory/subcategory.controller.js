@@ -4,7 +4,7 @@ import { CatchError } from "../../../utils/catch_error.js";
 import cloudinary from "../../../utils/cloudnairy.js";
 import slugify from "slugify";
 import { nanoid } from "nanoid";
-
+// category/categoryId/subcategory
 export const createSubCategory = CatchError(async (req, res, next) => {
   const { categoryId } = req.params;
   const{Name}=req.body
@@ -140,8 +140,8 @@ export const deleteSubCategory = CatchError(async (req, res, next) => {
 
   // ====== delete from the cloud =======
   // delete_resources >>> takes array of ids to delete them all
-  const ids = subCategoryModel.images.map((img) => img.id); // ids became array
-  ids.push(subCategoryModel.Image.id);
+  const ids = subcategory.images.map((img) => img.id); // ids became array
+  ids.push(subcategory.Image.id);
 
   // delete images
   const results = await cloudinary.api.delete_resources(ids);
@@ -150,7 +150,7 @@ export const deleteSubCategory = CatchError(async (req, res, next) => {
   // delete folder
   // folder must be empty to delete it so we can't make it before deleting images
   await cloudinary.api.delete_folder(
-    `${process.env.foldercloudnairy}/products/${subCategoryModel.cloudFolder}`
+    `${process.env.foldercloudnairy}/subcategorys/${subcategory.cloudFolder}`
   );
 
   // delete Subcategory from DB

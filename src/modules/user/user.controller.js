@@ -131,7 +131,7 @@ export const login=async(req,res,next)=>{
    
     //change user status to online and save user
     user.Status="online"
-    user.save()
+    await user.save()
     // send response
     return res.status(200).json({status:200,result:true,token})
 }
@@ -192,10 +192,10 @@ export const RoleUser=async (req,res,next)=>{
     return next(new Error("Not Found User",{cause:404}))
   }
   checkUser.Role="admin"
-  checkUser.save()
+ await checkUser.save()
   return res.status(200).json({result:true,status:200,Message:"User Became Admin"})
 }
-//  allusers
+//  a l  l u  s e  r s
 export const allusers=async (req,res,next)=>{
   const users=await User.find({},{Name:1,Email:1,Role:1,Status:1});
 
@@ -206,8 +206,7 @@ export const logout=async (req,res,next)=>{
   
   let token = req.header;
   let user_id=req.user._id
-  console.log(token);
-  console.log(user_id);
+  
   // Delete the Token from Token Model
    await Token.findOneAndDelete({token})
   // make the user offline
@@ -223,10 +222,12 @@ export const logout=async (req,res,next)=>{
 export const deleteaccount =CatchError(async(req,res,next)=>{
   const {id}=req.user
   console.log(id);
-  await CartModel.findOneAndDelete({user:id})
   const user= await User.findByIdAndDelete(id);
   if(!user){
     return next(new Error("User Not Found",{cause:404}))
   }
+  await CartModel.findOneAndDelete({user:id})
+  let tokens = await Token.deleteMany({user:id})
+  console.log(tokens);
   return res.json({result:true,status:200,message:"deleted Account Successfully"})
 })

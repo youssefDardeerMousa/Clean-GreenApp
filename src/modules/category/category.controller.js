@@ -65,6 +65,7 @@ export const DeleteCategory=CatchError(
         const result= await cloudinary.uploader.destroy(category.Image.id)
         console.log(result); // if equel ok == it deleted
         // delete category from DB
+        await subCategoryModel.deleteMany({ categoryId: CategoryId });
         await Category.findByIdAndDelete(CategoryId)
         // let subCategories = await subCategoryModel.find({ categoryId: CategoryId });
 
@@ -73,7 +74,7 @@ export const DeleteCategory=CatchError(
         // }
         
         // Delete all subcategories which related with category
-        await subCategoryModel.deleteMany({ categoryId: CategoryId });
+       
         //  send response
 
         return res.status(200).json({status:200,success:true,Message:"Category Deleted Successfully"})

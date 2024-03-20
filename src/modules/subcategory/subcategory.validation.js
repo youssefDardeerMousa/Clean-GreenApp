@@ -3,8 +3,8 @@ import { IsValidObjectId } from "../../middleware/validation.middleware.js";
 export const createSubCategorySchema = joi
   .object({
     Name: joi.string().min(5).max(20).required(),
-    categoryId: joi.string(),
-    description: joi.string(),
+    categoryId: joi.string().required(),
+    description: joi.string().required(),
     availableItems: joi.number().min(1).required(),
     price: joi.number().min(1).required(),
     discount: joi.number().min(1).max(100),

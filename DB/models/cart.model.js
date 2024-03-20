@@ -11,7 +11,7 @@ const cartSchema = new Schema(
     products: [
       {
         _id: false,
-        productId: { type: Types.ObjectId, ref: "Product", unique: true },
+        productId: { type: Types.ObjectId, ref: "Product" },
         quantity: { type: Number, default: 1 },
       },
     ],
@@ -19,7 +19,7 @@ const cartSchema = new Schema(
     subcategory: [
       {
         _id: false,
-        subcategoryId: { type: Types.ObjectId, ref: "Subcategory", unique: true },
+        subcategoryId: { type: Types.ObjectId, ref: "Subcategory"},
         quantity: { type: Number, default: 1 },
       },
     ],
