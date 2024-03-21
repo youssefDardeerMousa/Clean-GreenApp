@@ -27,7 +27,10 @@ router.patch(
   "/:subcategoryId",
   isAuthenticated,
   isAuthorized("admin"),
-  fileUpload(filterObject.image).single("subcategory"),
+  fileUpload(filterObject.image).fields([
+    { name: "Image", maxCount: 1 },
+    { name: "images", maxCount: 3 },
+  ]),
   isValid(updateSubCategorySchema),
   updateSubCategory
 );

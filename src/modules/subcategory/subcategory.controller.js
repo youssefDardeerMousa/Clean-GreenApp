@@ -88,14 +88,29 @@ export const updateSubCategory = CatchError(async (req, res, next) => {
   }
 
   // update image
-  if (req.file) {
-    const { secure_url ,public_id } = await cloudinary.uploader.upload(req.file.path);
-
-    // update new url
-    subcategory.Image.Url = secure_url;
-    subcategory.Image.Id= public_id
+  if (req.files.Image) {
+    const Image = req.files.Image[0];
+    const { secure_url, public_id } = await cloudinary.uploader.upload(
+      Image.path,
+      { folder: `${process.env.foldercloudnairy}/products/${product.cloudFolder}` }
+    );
+  
+    subcategory.Image = { url: secure_url, id: public_id };
   }
 
+  // Update subImages if provided
+  if (req.files.images) {
+    const images = [];
+    for (const file of req.files.images) {
+      const { secure_url, public_id } = await cloudinary.uploader.upload(
+        file.path,
+        { folder: `${process.env.foldercloudnairy}/products/${product.cloudFolder}` }
+      );
+      images.push({ url: secure_url, id: public_id });
+    }
+
+    subcategory.images = images;
+  }
   // save all changes to DB
   await subcategory.save();
 

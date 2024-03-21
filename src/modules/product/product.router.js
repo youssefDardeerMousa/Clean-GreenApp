@@ -60,7 +60,7 @@ router.patch(
 router.get("/",isAuthenticated, allProducts);
 
 // single product
-router.get("/single/:productId",isAuthenticated, isValid(productIdSchema), singleProduct);
+router.get("/:productId",isAuthenticated, isValid(productIdSchema), singleProduct);
 // search for product
 router.get("/search",isAuthenticated, SearchProduct);
 
