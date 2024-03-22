@@ -37,10 +37,7 @@ return IsSent? res.status(201).json({success:true,status:201,Message:"Please Rev
 //ActivationAccount
 export const activationAccount = async (req, res, next) => {
     // Find user, delete the activationCode, update isConfirmed
-    const checkuser = await User.findOne({ activationCode: req.params.activationCode });
-    if(!checkuser){
-      return next(new Error("Not found user and error activationCode",{cause:404}))
-    }
+   
     const check = await User.findOneAndUpdate({ activationCode: req.params.activationCode }, {
         IsConfirmed: true,
        $unset: { activationCode: 1 }
