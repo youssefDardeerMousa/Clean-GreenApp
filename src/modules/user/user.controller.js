@@ -37,13 +37,68 @@ return IsSent? res.status(201).json({success:true,status:201,Message:"Please Rev
 //ActivationAccount
 export const activationAccount = async (req, res, next) => {
     // Find user, delete the activationCode, update isConfirmed
-  
+    const checkuser = await User.findOne({ activationCode: req.params.activationCode });
+    if(!checkuser){
+      return next(new Error("Not found user and error activationCode",{cause:404}))
+    }
     const check = await User.findOneAndUpdate({ activationCode: req.params.activationCode }, {
         IsConfirmed: true,
-      //  $unset: { activationCode: 1 }
+       $unset: { activationCode: 1 }
     });
     if(!check){
-      return next(new Error("Not found user",{cause:404}))
+      const htmlResponse = `
+      <html>
+    <head>
+      <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,400i,700,900&display=swap" rel="stylesheet">
+    </head>
+      <style>
+        body {
+          text-align: center;
+          padding: 40px 0;
+          background: #EBF0F5;
+        }
+          h1 {
+            color: #88B04B;
+            font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+            font-weight: 900;
+            font-size: 40px;
+            margin-bottom: 10px;
+          }
+          p {
+            color: #404F5E;
+            font-family: "Nunito Sans", "Helvetica Neue", sans-serif;
+            font-size:20px;
+            margin: 0;
+          }
+        i {
+          color: red;
+          font-size: 100px;
+          line-height: 200px;
+          margin-left:-15px;
+        }
+        .card {
+          background: white;
+          padding: 60px;
+          border-radius: 4px;
+          box-shadow: 0 2px 3px #C8D0D8;
+          display: inline-block;
+          margin: 0 auto;
+        }
+      </style>
+      <body>
+        <div class="card">
+        <div style="border-radius:200px; height:200px; width:200px; background: #F8FAF5; margin:0 auto;">
+          <i class="checkmark">X</i>
+        </div>
+          <h1>Success</h1> 
+          <p>Your account has already been activated!</p>
+          <p>With Best Wishes: <br/>
+          Clean And Green Website</p>
+        </div>
+      </body>
+  </html>
+  `;
+  res.status(200).header('Content-Type', 'text/html').send(htmlResponse);
     }
     const htmlResponse = `
     <html>

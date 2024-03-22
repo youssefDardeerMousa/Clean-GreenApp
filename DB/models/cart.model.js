@@ -5,13 +5,13 @@ const cartSchema = new Schema(
     user: {
       type: Types.ObjectId,
       ref: "User",
-      required: true,
-      unique: true,
+      required: true
+    
     },
     products: [
       {
         _id: false,
-        productId: { type: Types.ObjectId, ref: "Product" },
+        productId: { type: Types.ObjectId, ref: "Product" , required: true },
         quantity: { type: Number, default: 1 },
       },
     ],
@@ -19,7 +19,7 @@ const cartSchema = new Schema(
     subcategory: [
       {
         _id: false,
-        subcategoryId: { type: Types.ObjectId, ref: "Subcategory"},
+        subcategoryId: { type: Types.ObjectId, ref: "Subcategory" , required: true},
         quantity: { type: Number, default: 1 },
       },
     ],

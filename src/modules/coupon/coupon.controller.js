@@ -9,8 +9,8 @@ export const createCoupon = CatchError(async (req, res, next) => {
 
   // generate code name
   const code = voucher_codes.generate({ length: 5 }); // returns []
-
-  // create coupon
+  // create coupon 
+  console.log(code);
   const coupon = await couponModel.create({
     name: code[0],
     discount,

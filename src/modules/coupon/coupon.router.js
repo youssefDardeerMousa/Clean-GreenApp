@@ -17,7 +17,6 @@ import { isValid } from "../../middleware/validation.middleware.js";
 const router = Router();
 
 // CRUD
-isAuthorized
 // create
 router.post(
   "/",
