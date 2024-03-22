@@ -81,7 +81,7 @@ export const addToCart = CatchError(async (req, res, next) => {
 
 export const userCart = CatchError(async (req, res, next) => {
   const userId = req.user._id;
-
+  
   const cart = await CartModel.findOne({ user: userId }).populate([
     {
       path: "products.productId",
