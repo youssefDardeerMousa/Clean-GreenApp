@@ -28,7 +28,7 @@ router.post(
   isAuthorized("admin"),
   fileUpload(filterObject.image).fields([
     { name: "defaultImage", maxCount: 1 },
-    { name: "subImages", maxCount: 3 },
+    { name: "images", maxCount: 3 },
   ]),
   isValid(createProductSchema),
   addProduct
