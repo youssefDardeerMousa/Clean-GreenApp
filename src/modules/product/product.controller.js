@@ -22,30 +22,33 @@ export const addProduct = CatchError(async (req, res, next) => {
 
  
   // check files existence
-  if (!req.files)
-    return next(new Error("Product images are required!", { cause: 400 }));
+ // check files existence
+if (!req.files || !req.files.subImages || !req.files.defaultImage) {
+  return next(new Error("Product images are required!", { cause: 400 }));
+}
 
-  // create unique folder name
-  const cloudFolder = nanoid();
+// create unique folder name
+const cloudFolder = nanoid();
 
-  // upload sub files
-  let images = [];
+// upload sub files
+let images = [];
 
-  for (const file of req.files.subImages) {
-    const { secure_url, public_id } = await cloudinary.uploader.upload(
-      file.path,
-      {
-        folder: `${process.env.foldercloudnairy}/products/${cloudFolder}`,
-      }
-    );
-    images.push({ url: secure_url, id: public_id });
-  }
-
-  // upload default image 
+for (const file of req.files.subImages) {
   const { secure_url, public_id } = await cloudinary.uploader.upload(
-    req.files.defaultImage.path,
-    { folder: `${process.env.foldercloudnairy}/products/${cloudFolder}` }
+    file.path,
+    {
+      folder: `${process.env.foldercloudnairy}/products/${cloudFolder}`,
+    }
   );
+  images.push({ url: secure_url, id: public_id });
+}
+
+// upload default image
+const { secure_url, public_id } = await cloudinary.uploader.upload(
+  req.files.defaultImage[0].path,
+  { folder: `${process.env.foldercloudnairy}/products/${cloudFolder}` }
+);
+
 
   // create product
   const product = await productModel.create({
