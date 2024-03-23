@@ -1,8 +1,9 @@
 import slugify from "slugify";
 import { Category } from "../../../DB/models/category.model.js";
-import { CatchError } from "../../../utils/catch_error.js"
 import cloudinary from "../../../utils/cloudnairy.js";
 import subCategoryModel from "../../../DB/models/subcategory.model.js";
+import { CatchError } from "../../../utils/catch_error.js";
+
 export const createCategory=CatchError(
     async(req,res,next)=>{
         //Name
