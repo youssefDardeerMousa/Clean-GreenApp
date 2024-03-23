@@ -4,7 +4,7 @@ const productSchema = new Schema(
   {
    
     Name: { type: String, required: true, min: 5, max: 20 },
-    Slug: { type: String, required: true },
+   
     description: String,
     images: [
       {

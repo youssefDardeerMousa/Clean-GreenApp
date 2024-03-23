@@ -2,14 +2,13 @@ import { nanoid } from "nanoid";
 import cloudinary from "../../../utils/cloudnairy.js";
 import productModel from "../../../DB/models/product.model.js";
 import subCategoryModel from "../../../DB/models/subcategory.model.js";
-import slugify from "slugify";
+
 import { CatchError } from "../../../utils/catch_error.js";
 import { Category } from "../../../DB/models/category.model.js";
 
 export const addProduct = CatchError(async (req, res, next) => {
   const { categoryId, subcategoryId } = req.body;
-  const {Name} = req.body;
-  const Slug=slugify(Name)
+
   // check category existence
   const category = await Category.findById(categoryId);
   if (!category) return next(new Error("Category not found!", { cause: 404 }));
@@ -20,7 +19,6 @@ export const addProduct = CatchError(async (req, res, next) => {
     return next(new Error("Subcategory not found!", { cause: 404 }));
 
   // check category existence
-
 
   // check files existence
   if (!req.files)
@@ -36,24 +34,23 @@ export const addProduct = CatchError(async (req, res, next) => {
     const { secure_url, public_id } = await cloudinary.uploader.upload(
       file.path,
       {
-        folder: `${process.env.foldercloudnairy}/products/${cloudFolder}`,
+        folder: `${process.env.FOLDER_CLOUD_NAME}/products/${cloudFolder}`,
       }
     );
     images.push({ url: secure_url, id: public_id });
   }
-  console.log("images", images);
-const defaultImage=req.files.defaultImage
+  
+console.log(" req.files.defaultImage[0].path "  ,req.files.defaultImage[0].path);
   // upload default image
   const { secure_url, public_id } = await cloudinary.uploader.upload(
-    defaultImage[0],
-    { folder: `${process.env.foldercloudnairy}/products/${cloudFolder}` }
+    req.files.defaultImage[0].path,
+    { folder: `${process.env.FOLDER_CLOUD_NAME}/products/${cloudFolder}` }
   );
 
   // create product
   const product = await productModel.create({
     ...req.body,
     cloudFolder,
-    Slug,
     createdBy: req.user._id,
     defaultImage: { url: secure_url, id: public_id },
     images, // [{},{}...]
