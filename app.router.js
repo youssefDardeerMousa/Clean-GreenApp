@@ -126,7 +126,8 @@ app.use((error, req, res, next) => {
     const errorResponse = {
         success: false,
         status: statusCode,
-        message: error.message
+        message: error.message,
+        stack:error.stack
     };
 
     if (process.env.NODE_ENV !== 'production') {
