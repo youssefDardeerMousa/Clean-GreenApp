@@ -43,7 +43,7 @@ export const addProduct = CatchError(async (req, res, next) => {
 
   // upload default image 
   const { secure_url, public_id } = await cloudinary.uploader.upload(
-    req.files.defaultImage[0].path,
+    req.files.defaultImage.path,
     { folder: `${process.env.foldercloudnairy}/products/${cloudFolder}` }
   );
 
