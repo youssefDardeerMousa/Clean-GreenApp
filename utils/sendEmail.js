@@ -2,7 +2,7 @@ import nodemailer from 'nodemailer'
 export const sendEmail = async({to,subject,html, attachments})=>{
     // sender 
      const transporter=nodemailer.createTransport({
-        host:'http://localhost:3000',
+        host:'https://clean-green-app.vercel.app/',
         port : 465,
         secure:true,
         service:'gmail',
