@@ -7,8 +7,7 @@ export const createSubCategorySchema = joi
     description: joi.string().required(),
     availableItems: joi.number().min(1).required(),
     price: joi.number().min(1).required(),
-    discount: joi.number().min(1).max(100),
-    Slug: joi.string().min(5).max(20).required()
+    discount: joi.number().min(1).max(100)
   })
   .required();
 
