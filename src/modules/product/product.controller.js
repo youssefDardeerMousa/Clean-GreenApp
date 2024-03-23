@@ -34,7 +34,7 @@ export const addProduct = CatchError(async (req, res, next) => {
     const { secure_url, public_id } = await cloudinary.uploader.upload(
       file.path,
       {
-        folder: `${process.env.FOLDER_CLOUD_NAME}/products/${cloudFolder}`,
+        folder: `${process.env.foldercloudnairy}/products/${cloudFolder}`,
       }
     );
     images.push({ url: secure_url, id: public_id });
@@ -44,7 +44,7 @@ console.log(" req.files.defaultImage[0].path "  ,req.files.defaultImage);
   // upload default image
   const { secure_url, public_id } = await cloudinary.uploader.upload(
     req.files.defaultImage,
-    { folder: `${process.env.FOLDER_CLOUD_NAME}/products/${cloudFolder}` }
+    { folder: `${process.env.foldercloudnairy}/products/${cloudFolder}` }
   );
 
   // create product
