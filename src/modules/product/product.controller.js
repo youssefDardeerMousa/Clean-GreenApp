@@ -27,20 +27,17 @@ export const addProduct = CatchError(async (req, res, next) => {
 
   // upload sub files
   let images = [];
-  if (!Array.isArray(req.files.subImages)) {
-    req.files.subImages = [req.files.subImages];
-  }
 
-  for (const file of req.files.subImages) {
+  let subImagesPromises = req.files.subImages.map(async file => {
     if (file && file.path) {
-        const { secure_url, public_id } = await cloudinary.uploader.upload(
-            file.path,
-            {
-                folder: `${process.env.foldercloudnairy}/products/${cloudFolder}`,
-            }
-        );
-        images.push({ url: secure_url, id: public_id });
-          }}
+      const { secure_url, public_id } = await cloudinary.uploader.upload(file.path, {
+        folder: `${process.env.foldercloudnairy}/products/${cloudFolder}`,
+      });
+      return { url: secure_url, id: public_id };
+    }
+  });
+
+   images = await Promise.all(subImagesPromises);
   
   // upload default image
   const { secure_url, public_id } = await cloudinary.uploader.upload(
