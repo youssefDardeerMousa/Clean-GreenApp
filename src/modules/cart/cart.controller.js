@@ -16,24 +16,22 @@ export const addToCart = CatchError(async (req, res, next) => {
       return next(new Error(`Sorry, only ${product.availableItems} items left in stock!`));
     }
 
-    let cart = await CartModel.findOne({ user: userId });
+    const cart = await CartModel.findOne({ user: userId });
 
     if (cart) {
       const existingProductIndex = cart.products.findIndex((p) => String(p.productId) === String(productId));
       if (existingProductIndex !== -1) {
-        const newQuantity = cart.products[existingProductIndex].quantity + quantity;
+        const newQuantity = cart.products[existingProductIndex].quantity += quantity;
         if (newQuantity <= product.availableItems) {
           cart.products[existingProductIndex].quantity = newQuantity;
-          console.log(  cart.products[existingProductIndex]);
+         
         } else {
-          return next(new Error(`Sory , only ${product.availableItems} items left one the stock!`));
+          return next(new Error(`Sorry , only ${product.availableItems} items left one the stock!`));
         }
       } else {
         cart.products.push({ productId, quantity });
       }
-    } else {
-      cart = new CartModel({ user: userId, products: [{ productId, quantity }] });
-    }
+    } 
 
     await cart.save();
 
@@ -52,18 +50,16 @@ export const addToCart = CatchError(async (req, res, next) => {
     if (cart) {
       const existingSubcategoryIndex = cart.subcategory.findIndex((s) => String(s.subcategoryId) === String(productId));
       if (existingSubcategoryIndex !== -1) {
-        const newQuantity = cart.subcategory[existingSubcategoryIndex].quantity + quantity;
+        const newQuantity = cart.subcategory[existingSubcategoryIndex].quantity += quantity;
         if (newQuantity <= subcategory.availableItems) {
           cart.subcategory[existingSubcategoryIndex].quantity = newQuantity;
         } else {
-          return next(new Error(`Quantity exceeds available items in stock for subcategory ID: ${productId}`));
+          return next(new Error(`Sorry , only ${subcategory.availableItems} items left one the stock!`));
         }
       } else {
         cart.subcategory.push({ subcategoryId: productId, quantity });
       }
-    } else {
-      cart = new CartModel({ user: userId, subcategory: [{ subcategoryId: productId, quantity }] });
-    }
+    } 
 
     await cart.save();
 
@@ -96,6 +92,7 @@ export const userCart = CatchError(async (req, res, next) => {
   if (!cart) return next(new Error("Cart not found", { status: 404 }));
 
   // Calculate total price and final price for products
+  //for each product old price
   let totalProductPrice = 0;
   cart.products.forEach((product) => {
     const price = product.productId.price;
@@ -104,6 +101,7 @@ export const userCart = CatchError(async (req, res, next) => {
   });
 
   // Calculate total final price for products
+   //for each product new price
   let totalProductFinalPrice = 0;
   cart.products.forEach((product) => {
     const finalPrice = product.productId.finalPrice;
@@ -194,7 +192,7 @@ export const updateCart = CatchError(async (req, res, next) => {
     }
 
     // Save the updated cart
-    cart = await cart.save();
+     await cart.save();
 
     return res.json({
       success: true,
@@ -210,7 +208,6 @@ export const updateCart = CatchError(async (req, res, next) => {
 export const removeProductFromCart = CatchError(async (req, res, next) => {
   // data
   const { productId } = req.params;
-  console.log(productId);
   const userId = req.user._id;
 
   const product = await productModel.findById(productId);
@@ -240,7 +237,7 @@ return res.json({
      { new: true }
    );
    
-   if (!cart) return next(new Error("Product not found!", { cause: 404 }));
+   if (!cart) return next(new Error("subcategory not found!", { cause: 404 }));
    
    // send response
    return res.json({
