@@ -8,8 +8,7 @@ import { Category } from "../../../DB/models/category.model.js";
 
 export const addProduct = CatchError(async (req, res, next) => {
   const { categoryId, subcategoryId } = req.body;
-  const{Name}=req.body
-  //Slug
+  const {Name} = req.body;
   const Slug=slugify(Name)
   // check category existence
   const category = await Category.findById(categoryId);
@@ -20,11 +19,13 @@ export const addProduct = CatchError(async (req, res, next) => {
   if (!subcategory)
     return next(new Error("Subcategory not found!", { cause: 404 }));
 
- 
+  // check category existence
+
+
   // check files existence
   if (!req.files)
     return next(new Error("Product images are required!", { cause: 400 }));
- 
+
   // create unique folder name
   const cloudFolder = nanoid();
 
@@ -40,8 +41,9 @@ export const addProduct = CatchError(async (req, res, next) => {
     );
     images.push({ url: secure_url, id: public_id });
   }
-  console.log("req.files.defaultImage[0].path " , req.files.defaultImage[0].path);
-  // upload default image 
+  console.log("images", images);
+
+  // upload default image
   const { secure_url, public_id } = await cloudinary.uploader.upload(
     req.files.defaultImage[0].path,
     { folder: `${process.env.foldercloudnairy}/products/${cloudFolder}` }
@@ -57,6 +59,7 @@ export const addProduct = CatchError(async (req, res, next) => {
     images, // [{},{}...]
   });
 
+  console.log("product final price", product.finalPrice);
 
   // send response
   return res.json({ success: true, results: product });

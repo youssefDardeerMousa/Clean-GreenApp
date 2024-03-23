@@ -33,7 +33,6 @@ router.post(
   isValid(createProductSchema),
   addProduct
 );
-
 // delete
 router.delete(
   "/:productId",
