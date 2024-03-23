@@ -18,11 +18,9 @@ export const addProduct = CatchError(async (req, res, next) => {
   if (!subcategory)
     return next(new Error("Subcategory not found!", { cause: 404 }));
 
-  // check category existence
-
   // check files existence
-  if (!req.files)
-    return next(new Error("Product images are required!", { cause: 400 }));
+  if (!req.files || !req.files.defaultImage)
+    return next(new Error("Default Image file is missing!", { cause: 400 }));
 
   // create unique folder name
   const cloudFolder = nanoid();
@@ -34,17 +32,16 @@ export const addProduct = CatchError(async (req, res, next) => {
     const { secure_url, public_id } = await cloudinary.uploader.upload(
       file.path,
       {
-        folder: `${process.env.foldercloudnairy}/products/${cloudFolder}`,
+        folder: `${process.env.FOLDER_CLOUD_NAME}/products/${cloudFolder}`,
       }
     );
     images.push({ url: secure_url, id: public_id });
   }
   
-console.log(" req.files.defaultImage[0].path "  ,req.files.defaultImage);
   // upload default image
   const { secure_url, public_id } = await cloudinary.uploader.upload(
-    req.files.defaultImage,
-    { folder: `${process.env.foldercloudnairy}/products/${cloudFolder}` }
+    req.files.defaultImage[0].path,
+    { folder: `${process.env.FOLDER_CLOUD_NAME}/products/${cloudFolder}` }
   );
 
   // create product
@@ -61,6 +58,8 @@ console.log(" req.files.defaultImage[0].path "  ,req.files.defaultImage);
   // send response
   return res.json({ success: true, results: product });
 });
+
+
 
 export const deleteProduct = CatchError(async (req, res, next) => {
   // data
