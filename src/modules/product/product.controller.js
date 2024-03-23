@@ -24,7 +24,7 @@ export const addProduct = CatchError(async (req, res, next) => {
   // check files existence
   if (!req.files)
     return next(new Error("Product images are required!", { cause: 400 }));
-  console.log(req.files);
+  console.log("req.files.subImages " , req.files.subImages);
   // create unique folder name
   const cloudFolder = nanoid();
 
@@ -42,6 +42,8 @@ export const addProduct = CatchError(async (req, res, next) => {
   }
 
   // upload default image 
+// upload default image 
+if (req.files.defaultImage && req.files.defaultImage.length > 0) {
   const { secure_url, public_id } = await cloudinary.uploader.upload(
     req.files.defaultImage[0].path,
     { folder: `${process.env.foldercloudnairy}/products/${cloudFolder}` }
@@ -56,6 +58,9 @@ export const addProduct = CatchError(async (req, res, next) => {
     defaultImage: { url: secure_url, id: public_id },
     images, // [{},{}...]
   });
+} else {
+  return next(new Error("Default image not provided!", { cause: 400 }));
+}
 
 
   // send response
