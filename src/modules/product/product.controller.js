@@ -40,7 +40,7 @@ export const addProduct = CatchError(async (req, res, next) => {
     images.push({ url: secure_url, id: public_id });
   }
   
-console.log(" req.files.defaultImage[0].path "  ,req.files.defaultImage[0].path);
+console.log(" req.files.defaultImage[0].path "  ,req.files.defaultImage.path);
   // upload default image
   const { secure_url, public_id } = await cloudinary.uploader.upload(
     req.files.defaultImage[0].path,
