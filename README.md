@@ -16,3 +16,7 @@ This project is an E-Commerce platform developed using Node.js for the backend l
 - MongoDB
 - Mongoose for ODM
 - Stripe for payment processing
+
+## Documentation
+
+[Documentation API ](https://documenter.getpostman.com/view/26797226/2sA2xnw9fT)
